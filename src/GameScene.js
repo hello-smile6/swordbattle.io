@@ -43,7 +43,7 @@ class GameScene extends Phaser.Scene {
 	}
 
 	create() {
-
+		this.showedMessage=false;
 			try {
 				document.getElementById("swordbattle-io_970x250").style.display = "none";
 				document.getElementById("swordbattle-io_970x90").style.display = "none";
@@ -567,10 +567,12 @@ aiptag.cmd.display.push(function() { aipDisplayTag.display('swordbattle-io_970x9
 
 				var showed = false;
 				function handleErr(err) {
-					if(showed) return;
+					if(showed||this.showedMessage) return;
 					console.log(err);
 					document.write("<b>Failed to contact the server, try a different server from settings (bottom left)</b><br><br><button onclick=\"location.reload()\"><h1>Refresh</h1></button>");
 					showed = true;
+					this.showedMessage = true;
+					
 				}
 				this.socket.on("connect_error", (e) => {
           if(!this.spectating) {
@@ -646,6 +648,7 @@ aiptag.cmd.display.push(function() { aipDisplayTag.display('swordbattle-io_970x9
 				});
 				this.socket.on("ban", (data) => {
 					showed = true;
+					this.showedMessage = true;
 					document.write(data);
 				});
 
